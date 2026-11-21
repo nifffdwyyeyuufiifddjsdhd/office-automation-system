@@ -3,6 +3,11 @@
 企业级 OA 系统，前后端分离：后端 Spring Boot 3 + MyBatis-Plus + MySQL，前端 Vue 3 + Vite + TypeScript + Element Plus。
 按角色（管理员 / 总经理 / 财务 / 人事主管 / 人事专员 / 项目经理 / 部门主管 / 员工 / 审核人动态角色 / 访客）划分模块与数据范围。
 
+![登录页](docs/images/login.png)
+
+只想先看看长什么样：直接点上面的图或进 `OfficeAutomationSystemWeb` 看代码，不用装环境。
+想在自己电脑上跑起来：照着下面「快速启动」四步走，实测从零到登录页约 5 分钟（前提是 JDK 17、MySQL 8、Node 18+ 已装好）。
+
 ## 目录结构
 
 ```
@@ -18,7 +23,7 @@ office-automation-system/
 │  └─ src/main/resources/application.yml + application-dev.yml + application-prod.yml
 ├─ OfficeAutomationSystemWeb/     前端（Vite 端口 5174，hash 路由）
 │  └─ src/{api,views,router,store,config,utils}
-└─ （同级目录）oa-mini-program/  小程序端（uni-app + Vue 3 + TS，一套代码出 H5/微信小程序）
+└─ （同级目录，独立仓库）oa-mini-program/  小程序端（uni-app + Vue 3 + TS，一套代码出 H5/微信小程序）
    └─ src/{api,pages,store,utils}
 ├─ docs/                          交付文档（接口对账、交付核对表、数据库说明、早期接口清单）
 ├─ deploy/                        部署材料（Nginx、生产配置模板、启动脚本）
@@ -38,14 +43,25 @@ office-automation-system/
 
 ## 快速启动
 
+### 0. 把代码拿到本机
+
+```powershell
+git clone https://github.com/nifffdwyyeyuufiifddjsdhd/office-automation-system.git
+cd office-automation-system
+```
+
+（小程序端是另一个仓库：`git clone https://github.com/nifffdwyyeyuufiifddjsdhd/oa-mini-program.git`，放在同一个父目录下即可，和本工程平级。）
+
 ### 1. 初始化数据库
 
 ```powershell
-# 建库 + 依次执行全部迁移脚本（需要 mysql 客户端在 PATH，或用 -MySqlExe 指定）
+# 建库 + 依次执行全部迁移脚本（需要 mysql 客户端在 PATH，或用 -MySqlExe 指定 mysql.exe 完整路径）
 .\scripts\init-db.ps1 -User root -Password 861202
 ```
 
 脚本会创建 `oa_system` 库、导入基础结构与 26 个增量迁移，并把内置账号补齐。
+
+> 如果你不用脚本、想手工导 `sql-init-20261024.sql`：这份 dump 里没有 `CREATE DATABASE`，要先 `CREATE DATABASE oa_system DEFAULT CHARSET utf8mb4` 再 `mysql --default-character-set=utf8mb4 oa_system < sql-init-20261024.sql`，否则会报「No database selected」。
 
 ### 2. 启动后端
 
@@ -65,23 +81,25 @@ npm install
 npm run dev
 ```
 
-打开 http://localhost:5174 ，默认代理到 `/api`（见 `.env.example`）。
+`npm run dev` 默认开在 http://localhost:5173 （Vite 默认端口）。想固定用 5174（本机常用端口）就 `npm run dev -- --port 5174`。
+前端 `/api` 由 `vite.config.ts` 的 proxy 转发到后端，默认目标是 `http://localhost:4040`；**后端换了端口，这里要一起改**，否则页面能开但接口全 404。
 
 ### 3.1 小程序端（可选）
 
-小程序端已独立成同级工程 `D:\VSC\Employment Project\oa-mini-program`（和本工程、医院管理系统平级），
-不另建服务，直接复用本后端的 `/api`：
+小程序端独立成一个仓库：https://github.com/nifffdwyyeyuufiifddjsdhd/oa-mini-program
+（克隆到本工程的同一父目录，保持平级），不另建服务，直接复用本后端的 `/api`：
 
 ```powershell
-cd ..\oa-mini-program
+git clone https://github.com/nifffdwyyeyuufiifddjsdhd/oa-mini-program.git
+cd oa-mini-program
 npm install
-npm run dev:h5           # 浏览器里按手机尺寸调试
+npm run dev:h5           # 浏览器里按手机尺寸调试，默认 5173
 npm run dev:mp-weixin    # 产物 dist/dev/mp-weixin，用微信开发者工具导入
 ```
 
 也可以直接用 HBuilderX 打开 `oa-mini-program` 目录运行。后端地址写在 `src/config.ts` 的 `BASE_URL`
 （默认 `http://localhost:4040/api`）；真机或小程序上线要换成 https 域名，并在小程序后台配置
-request/uploadFile 合法域名。详见 [oa-mini-program/README.md](../oa-mini-program/README.md)。
+request/uploadFile 合法域名。详见该仓库自己的 README。
 
 ### 4. 演示账号
 
@@ -106,6 +124,13 @@ request/uploadFile 合法域名。详见 [oa-mini-program/README.md](../oa-mini-
 ```
 
 重置后登录会按 `must_change_password` 标记决定是否强制改密。
+
+### 5. 新电脑上最容易卡住的四个地方
+
+1. **导入 dump 报 No database selected**：dump 里没有 `CREATE DATABASE`，先建库再导入（见第 1 步的提示）。
+2. **登录返回 1001 用户名或密码错误**：基线密码是 bcrypt 密文、无法反推，用 `scripts/reset-password.ps1` 重置一个能用密码再登。
+3. **前端页面能开、接口全 404**：`vite.config.ts` 的 proxy 目标是写死的 `http://localhost:4040`，后端改了端口必须同步改这里。
+4. **前端端口不是 5174**：Vite 默认 5173；要 5174 就 `npm run dev -- --port 5174`。Node 24 装依赖时会打印 `EBADENGINE` 警告，不影响运行。
 
 ## 配置与环境变量
 
