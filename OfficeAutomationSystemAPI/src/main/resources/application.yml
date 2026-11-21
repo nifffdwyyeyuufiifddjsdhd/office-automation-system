@@ -1,0 +1,80 @@
+server:
+  port: ${SERVER_PORT:4040}
+  servlet:
+    context-path: /
+
+spring:
+  # 通过 OA_PROFILE 切换 dev / test / prod，三套环境只改环境变量不改代码
+  profiles:
+    active: ${OA_PROFILE:dev}
+  transaction:
+    rollback-on-commit-failure: true
+  application:
+    name: office-automation-system
+  servlet:
+    multipart:
+      # 文档约定：通用单文件 50MB；工作日志附件 20MB 由业务代码再卡一道
+      max-file-size: 50MB
+      max-request-size: 60MB
+  mail:
+    host: ${OA_MAIL_HOST:smtp.qq.com}
+    port: ${OA_MAIL_PORT:465}
+    username: ${OA_MAIL_USERNAME:}
+    password: ${OA_MAIL_PASSWORD:}
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${OA_DB_URL:jdbc:mysql://localhost:3306/oa_system?serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true}
+    username: ${OA_DB_USERNAME:root}
+    password: ${OA_DB_PASSWORD:861202}
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+
+oa:
+  upload-dir: ${OA_UPLOAD_DIR:D:/VSC/Employment Project/office-automation-system/uploads}
+
+# 跨域来源白名单，线上改成自己的前端域名
+cors:
+  # 开发环境放行本机任意端口的预览服务（HBuilderX、微信开发者工具、vite 预览都会占用不同端口）；
+  # 线上必须用 OA_CORS_ORIGINS 指定域名，不要留通配
+  allowed-origins: ${OA_CORS_ORIGINS:http://localhost:*,http://127.0.0.1:*}
+
+# JWT 密钥与有效期，生产必须用环境变量覆盖默认值
+jwt:
+  secret: ${OA_JWT_SECRET:jingtian2026nian9yue18haoxingqiwuqing}
+  expire-hours: ${OA_JWT_EXPIRE_HOURS:24}
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: com.officeautomationsystemapi.entity
+  configuration:
+    map-underscore-to-camel-case: false
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-value: now()
+      logic-not-delete-value: "null"
+
+logging:
+  level:
+    org.mybatis.spring: WARN
+    org.apache.ibatis: WARN
+    org.springframework.jdbc: WARN
+    org.springframework.transaction: WARN
+    org.springframework.web: INFO
+    org.apache.ibatis.session.defaults.DefaultSqlSession: WARN

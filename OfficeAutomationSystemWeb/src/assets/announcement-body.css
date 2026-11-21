@@ -1,0 +1,190 @@
+/* 公告正文排版
+   编辑器只存结构标签，字号、颜色、边框都由这里控制
+   换主题只换容器上的 class */
+.ann-body {
+  --ann-accent: #409eff;
+  --ann-accent-soft: rgba(64, 158, 255, 0.1);
+  --ann-border: #e4e7ed;
+  --ann-th-bg: #f5f7fa;
+  --ann-quote-bg: #f4f8ff;
+  --ann-code-bg: #f2f3f5;
+  font-size: 15px;
+  line-height: 1.9;
+  color: #303133;
+  word-break: break-word;
+}
+
+.ann-body > *:first-child { margin-top: 0; }
+.ann-body > *:last-child { margin-bottom: 0; }
+
+.ann-body h1, .ann-body h2, .ann-body h3,
+.ann-body h4, .ann-body h5, .ann-body h6 {
+  font-weight: 700;
+  line-height: 1.5;
+  margin: 24px 0 12px;
+  color: #1f2d3d;
+}
+.ann-body h1 { font-size: 24px; }
+.ann-body h2 { font-size: 20px; }
+.ann-body h3 { font-size: 17px; }
+.ann-body h4 { font-size: 15px; }
+.ann-body h5, .ann-body h6 { font-size: 14px; color: #4b5563; }
+
+.ann-body p { margin: 0 0 12px; }
+.ann-body strong, .ann-body b { font-weight: 600; }
+.ann-body u { text-decoration: underline; text-underline-offset: 3px; }
+.ann-body s, .ann-body del { color: #909399; }
+
+.ann-body ul, .ann-body ol { margin: 0 0 12px; padding-left: 24px; }
+.ann-body li { margin: 5px 0; }
+.ann-body ul > li { list-style: disc; }
+.ann-body ol > li { list-style: decimal; }
+.ann-body li > ul, .ann-body li > ol { margin: 5px 0; }
+
+.ann-body blockquote {
+  margin: 0 0 14px;
+  padding: 10px 16px;
+  border-left: 4px solid var(--ann-accent);
+  background: var(--ann-quote-bg);
+  color: #4b5563;
+  border-radius: 0 6px 6px 0;
+}
+
+.ann-body pre {
+  margin: 0 0 14px;
+  padding: 14px 16px;
+  background: #1f2430;
+  color: #e6edf3;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.ann-body code {
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: var(--ann-code-bg);
+  font-family: "JetBrains Mono", Consolas, "Courier New", monospace;
+  font-size: 0.92em;
+}
+.ann-body pre code { padding: 0; background: none; color: inherit; font-size: inherit; }
+
+.ann-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 14px;
+  font-size: 14px;
+}
+.ann-body th, .ann-body td {
+  border: 1px solid var(--ann-border);
+  padding: 8px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+.ann-body th { background: var(--ann-th-bg); font-weight: 600; }
+.ann-body table caption { padding: 6px 0; color: #909399; font-size: 13px; }
+
+.ann-body img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 12px 0;
+  border-radius: 6px;
+}
+.ann-body figure { margin: 0 0 12px; }
+.ann-body figcaption { margin-top: 6px; color: #909399; font-size: 12px; text-align: center; }
+
+.ann-body a { color: var(--ann-accent); text-decoration: none; }
+.ann-body a:hover { text-decoration: underline; }
+
+.ann-body hr { border: none; border-top: 1px solid var(--ann-border); margin: 18px 0; }
+.ann-body sub, .ann-body sup { font-size: 0.75em; }
+
+/* 主题一：标准公文（默认，白底细线，最像正式文件） */
+.ann-theme-standard { }
+.ann-theme-standard h2 {
+  padding-left: 10px;
+  border-left: 4px solid var(--ann-accent);
+}
+
+/* 主题二：通知通告（米黄底 + 橙色标题，标题居中带下划线） */
+.ann-theme-notice {
+  --ann-accent: #e6a23c;
+  --ann-accent-soft: rgba(230, 162, 60, 0.12);
+  --ann-border: #efe0c4;
+  --ann-th-bg: #fdf3e2;
+  --ann-quote-bg: #fdf6ec;
+  padding: 26px 30px;
+  background: #fffdf7;
+  border: 1px solid #f2e2c4;
+  border-radius: 10px;
+}
+.ann-theme-notice h1, .ann-theme-notice h2 {
+  text-align: center;
+  color: #b8860b;
+  letter-spacing: 2px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--ann-accent);
+}
+.ann-theme-notice blockquote { border-left-width: 5px; }
+
+/* 主题三：培训学习（浅蓝底 + 圆角引用块，偏轻松阅读） */
+.ann-theme-academic {
+  --ann-accent: #1e88e5;
+  --ann-accent-soft: rgba(30, 136, 229, 0.1);
+  --ann-border: #d6e6f7;
+  --ann-th-bg: #eef6fe;
+  --ann-quote-bg: #eef6fe;
+  padding: 24px 28px;
+  background: #f7fbff;
+  border: 1px solid #dbeaf9;
+  border-radius: 12px;
+}
+.ann-theme-academic h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #1565c0;
+}
+.ann-theme-academic h2::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ann-accent);
+}
+.ann-theme-academic blockquote { border-radius: 8px; border-left-width: 4px; }
+
+/* 主题四：制度文件（浅灰底 + 墨绿标题 + 双线表格，正式感最强） */
+.ann-theme-finance {
+  --ann-accent: #2f6f5e;
+  --ann-accent-soft: rgba(47, 111, 94, 0.1);
+  --ann-border: #cdd6d2;
+  --ann-th-bg: #eef2f0;
+  --ann-quote-bg: #eef2f0;
+  padding: 26px 30px;
+  background: #fbfcfc;
+  border: 1px solid #dfe6e3;
+  border-radius: 6px;
+}
+.ann-theme-finance h1, .ann-theme-finance h2 {
+  color: #224f43;
+  text-align: center;
+  letter-spacing: 1px;
+}
+.ann-theme-finance h3 {
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--ann-border);
+}
+.ann-theme-finance table { border-top: 2px solid var(--ann-accent); border-bottom: 2px solid var(--ann-accent); }
+.ann-theme-finance th { border-left: none; border-right: none; }
+.ann-theme-finance td { border-left: none; border-right: none; }
+
+/* 编辑器预览也用这套样式，所见即所得 */
+.ann-editor-preview .w-e-text-container {
+  background: transparent;
+}
+.ann-editor-preview .w-e-text {
+  font-size: 15px;
+  line-height: 1.9;
+}

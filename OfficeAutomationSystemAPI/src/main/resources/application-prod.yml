@@ -1,0 +1,28 @@
+# 生产环境：所有敏感配置只从环境变量读取，缺一个都不启动，避免误用演示值
+spring:
+  datasource:
+    url: ${OA_DB_URL}
+    username: ${OA_DB_USERNAME}
+    password: ${OA_DB_PASSWORD}
+  mail:
+    host: ${OA_MAIL_HOST}
+    port: ${OA_MAIL_PORT:465}
+    username: ${OA_MAIL_USERNAME}
+    password: ${OA_MAIL_PASSWORD}
+
+oa:
+  upload-dir: ${OA_UPLOAD_DIR}
+
+jwt:
+  secret: ${OA_JWT_SECRET}
+  expire-hours: ${OA_JWT_EXPIRE_HOURS:24}
+
+cors:
+  allowed-origins: ${OA_CORS_ORIGINS}
+
+logging:
+  level:
+    root: INFO
+    com.officeautomationsystemapi: INFO
+  file:
+    name: ${OA_LOG_FILE:logs/oa-backend.log}

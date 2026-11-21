@@ -1,0 +1,27 @@
+# 依赖与编译产物
+node_modules/
+target/
+dist/
+*.class
+
+# 大备份与运行数据，不进仓库
+.backup/
+uploads/
+
+# 本地密钥
+.env
+.env.local
+.env.production
+deploy/env.prod
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# 系统
+.DS_Store
+Thumbs.db
+
+# 本地 git 备份目录
+.git.empty-bak-*/

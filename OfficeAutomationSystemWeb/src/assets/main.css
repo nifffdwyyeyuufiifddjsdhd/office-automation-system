@@ -1,0 +1,128 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+/* 弹窗全局样式，玻璃质感 */
+.el-dialog {
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow:
+    0 24px 64px rgba(15, 23, 42, 0.18),
+    0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.el-dialog__header {
+  padding: 22px 28px 14px;
+  margin-right: 0;
+  background: linear-gradient(180deg, rgba(240, 246, 255, 0.85), rgba(255, 255, 255, 0));
+  border-bottom: 1px solid rgba(228, 231, 237, 0.65);
+}
+
+.el-dialog__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2d3d;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 标题左侧渐变竖条 */
+.el-dialog__title::before {
+  content: "";
+  width: 4px;
+  height: 18px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #409eff, #79bbff);
+}
+
+.el-dialog__headerbtn {
+  top: 18px;
+  right: 18px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.el-dialog__headerbtn:hover {
+  background: rgba(64, 158, 255, 0.1);
+  transform: rotate(90deg);
+}
+
+.el-dialog__headerbtn .el-dialog__close {
+  color: #909399;
+  font-size: 18px;
+}
+
+.el-dialog__headerbtn:hover .el-dialog__close {
+  color: #409eff;
+}
+
+.el-dialog__body {
+  padding: 20px 28px 8px;
+}
+
+.el-dialog__footer {
+  padding: 14px 28px 22px;
+  background: linear-gradient(0deg, rgba(240, 246, 255, 0.55), rgba(255, 255, 255, 0));
+  border-top: 1px solid rgba(228, 231, 237, 0.5);
+}
+
+.el-dialog__footer .el-button {
+  border-radius: 9px;
+  padding: 10px 24px;
+  font-weight: 500;
+}
+
+.el-dialog__footer .el-button--primary {
+  box-shadow: 0 6px 16px rgba(64, 158, 255, 0.35);
+}
+
+.el-dialog__footer .el-button--primary:hover {
+  box-shadow: 0 8px 22px rgba(64, 158, 255, 0.45);
+  transform: translateY(-1px);
+}
+
+/* 弹窗内表单控件统一圆角 */
+.el-dialog .el-input__wrapper,
+.el-dialog .el-textarea__inner,
+.el-dialog .el-select__wrapper,
+.el-dialog .el-date-editor {
+  border-radius: 9px;
+}
+
+.el-dialog .el-form-item {
+  margin-bottom: 20px;
+}
+
+.el-dialog .el-form-item__label {
+  font-weight: 500;
+  color: #4a5568;
+}
+
+.el-dialog .el-upload-dragger {
+  border-radius: 12px;
+  border: 1px dashed #c0c4cc;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+.el-dialog .el-upload-dragger:hover {
+  border-color: #409eff;
+  background: rgba(64, 158, 255, 0.04);
+  box-shadow: 0 4px 16px rgba(64, 158, 255, 0.12);
+}
